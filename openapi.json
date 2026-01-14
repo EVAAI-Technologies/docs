@@ -289,18 +289,18 @@
           },
           "threats": {
             "type": "array",
-            "description": "Array of detected security threats. Common threats include 'Honeypot' (contract designed to trap funds) and 'Shypooning' (malicious behavior allowing fund manipulation), but other threat types may be detected.",
+            "description": "Array of detected security threats.",
             "items": {
               "type": "string"
             },
-            "example": ["Honeypot", "Shypooning"]
+            "example": ["Honeypot", "Shypooning","Tax Issues", "Other Risks", "HolderDistr"]
           },
           "auditInfo": {
             "$ref": "#/components/schemas/AuditInfo"
           },
           "similarityMap": {
             "type": "array",
-            "description": "Array of up to 5 similar tokens detected through AI analysis (limited from full dataset)",
+            "description": "Array of up to 5 similar tokens detected through AI-based behavioral and logical analysis of smart contracts (not a direct or line-by-line code comparison).",
             "maxItems": 5,
             "items": {
               "$ref": "#/components/schemas/SimilarToken"
