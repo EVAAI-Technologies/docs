@@ -30,17 +30,17 @@
           {
             "lang": "curl",
             "label": "cURL",
-            "source": "curl 'https://dashboard.eva-ai.io/api/audit?chain=56&ca=0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC'"
+            "source": "curl 'https://dashboard.eva-ai.io/api/audit?chain=56&ca=0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC' \\\n  -H 'x-api-key: YOUR_API_KEY'"
           },
           {
             "lang": "javascript",
             "label": "JavaScript",
-            "source": "const response = await fetch(\n  'https://dashboard.eva-ai.io/api/audit?chain=56&ca=0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC'\n);\nconst data = await response.json();"
+            "source": "const response = await fetch(\n  'https://dashboard.eva-ai.io/api/audit?chain=56&ca=0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC',\n  {\n    headers: { 'x-api-key': 'YOUR_API_KEY' }\n  }\n);\nconst data = await response.json();"
           },
           {
             "lang": "python",
             "label": "Python",
-            "source": "import requests\n\nresponse = requests.get(\n    'https://dashboard.eva-ai.io/api/audit',\n    params={'chain': 56, 'ca': '0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC'}\n)\ndata = response.json()"
+            "source": "import requests\n\nresponse = requests.get(\n    'https://dashboard.eva-ai.io/api/audit',\n    params={'chain': 56, 'ca': '0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC'},\n    headers={'x-api-key': 'YOUR_API_KEY'}\n)\ndata = response.json()"
           }
         ],
         "parameters": [
@@ -63,6 +63,16 @@
               "type": "string"
             },
             "example": "0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC"
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "description": "API key for higher rate limits (optional). Get one at dashboard.eva-ai.io",
+            "schema": {
+              "type": "string"
+            },
+            "example": "YOUR_API_KEY"
           }
         ],
         "responses": {
