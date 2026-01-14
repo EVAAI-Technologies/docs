@@ -27,19 +27,19 @@
             "pages": [
               "Products/Instinct",
               "Products/Intel",
-              "Products/EVA App",
+              "Products/EVA App"
+            ]
+          },
+          {
+            "group": "Developer API",
+            "pages": [
+              "Products/Developer API/overview",
+              "Products/Developer API/chains",
               {
-                "group": "Developer API",
+                "group": "Endpoints",
+                "openapi": "openapi.json",
                 "pages": [
-                  "Products/Developer API/overview",
-                  "Products/Developer API/chains",
-                  {
-                    "group": "Endpoints",
-                    "openapi": "openapi.json",
-                    "pages": [
-                      "GET /audit"
-                    ]
-                  }
+                  "GET /audit"
                 ]
               }
             ]
