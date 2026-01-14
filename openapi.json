@@ -1,0 +1,420 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "EVA API",
+    "description": "Comprehensive smart contract security analysis API with AI-powered threat detection across 18+ EVM blockchain networks.\n\n## Authentication\nAll API requests require an API key passed in the `x-api-key` header.\n\nGet your free API key at: [dashboard.eva-ai.io](https://dashboard.eva-ai.io)\n\n## Rate Limiting\n- **Authenticated users**: Custom limits based on API key tier (default: 60 requests/minute)\n- **Anonymous users**: 2 requests/minute\n\nRate limit headers are included in responses:\n- `RateLimit-Limit`: Maximum requests allowed\n- `RateLimit-Remaining`: Remaining requests in current window\n- `RateLimit-Reset`: Time when the rate limit resets\n\n## Supported Chains\n\n| Chain ID | Network |\n|----------|----------|\n| 1 | Ethereum Mainnet |\n| 10 | Optimism |\n| 25 | Cronos |\n| 56 | BSC |\n| 130 | Unichain |\n| 137 | Polygon |\n| 143 | Monad |\n| 146 | Sonic |\n| 324 | zkSync |\n| 1101 | Polygon zkEVM |\n| 2741 | Abstract |\n| 8453 | Base |\n| 42161 | Arbitrum One |\n| 42170 | Arbitrum Nova |\n| 42220 | Celo |\n| 43114 | Avalanche |\n| 80094 | Berachain |\n| 81457 | Blast |\n\n## How It Works\n\n1. **Initial Analysis**: When you analyze a token, EVA fetches contract data from the blockchain\n2. **Security Audit**: The contract source code is analyzed for common vulnerabilities and threats\n3. **Similarity Detection**: AI-powered pattern matching identifies similar contracts across all chains\n4. **Caching**: Results are cached for efficiency:\n   - Renounced tokens: 1 hour cache\n   - Active ownership: Re-validates owner before serving cache\n   - Similarity data: Refreshed every 5 minutes",
+    "version": "1.0.0",
+    "contact": {
+      "name": "EVA AI Support",
+      "email": "evaaiteam@gmail.com",
+      "url": "https://dashboard.eva-ai.io"
+    },
+    "license": {
+      "name": "Proprietary"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://dashboard.eva-ai.io/api",
+      "description": "Production server"
+    }
+  ],
+  "security": [
+    {
+      "apiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/audit": {
+      "get": {
+        "summary": "Audit",
+        "description": "Analyze a smart contract for security threats, vulnerabilities, and similar contracts.",
+        "operationId": "audit",
+        "parameters": [
+          {
+            "name": "chain",
+            "in": "query",
+            "required": true,
+            "description": "Chain ID (e.g., 1 = Ethereum, 56 = BSC, 8453 = Base)",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 56
+          },
+          {
+            "name": "ca",
+            "in": "query",
+            "required": true,
+            "description": "Contract address",
+            "schema": {
+              "type": "string"
+            },
+            "example": "0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful analysis response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisResponse"
+                },
+                "example": {
+                  "name": "Giggle Mascot",
+                  "symbol": "Max",
+                  "decimals": "18",
+                  "totalSupply": "1000000000000000000000000000",
+                  "owner": "0x0000000000000000000000000000000000000000",
+                  "chain": "56",
+                  "tokenAddress": "0x2c45560bc707f7addb8df848a9ba6cd9f30faeec",
+                  "contractName": "Token",
+                  "isProxy": false,
+                  "age": 1739024784000,
+                  "initInfo": {
+                    "blockNumber": "46481055",
+                    "txHash": "0x65449bf92111b78072e1b232925101fdcb3cdf2a11e41050ccc9b62e853291f6",
+                    "contractCreator": "0x3139576ed8e66cddf0be15f755bf5c5ce5b598a8",
+                    "timestamp": 1739024562
+                  },
+                  "threats": [],
+                  "auditInfo": {
+                    "ownershipStatus": "Renounced",
+                    "flags": [
+                      { "category": "Honeypot", "label": "🟢", "description": "" },
+                      { "category": "Shypooning", "label": "🟢", "description": "" },
+                      { "category": "Tax Issue", "label": "🟢", "description": "" },
+                      { "category": "Other Risks", "label": "🟢", "description": "" }
+                    ]
+                  },
+                  "similarityMap": [
+                    { "id": "0x628d3ffc9e085c419133274fe984e554b8b4e2ae", "symbol": "CZBNB", "chain": "56", "score": 0.95, "exactMatch": true, "tags": [] },
+                    { "id": "0x3a828e1ea6511e367d436c601e14cdb2b446896d", "symbol": "GATSBY", "chain": "56", "score": 0.81, "exactMatch": false, "tags": [] }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Missing required parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "Missing chain or contract address"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Token not found or could not be fetched from the blockchain",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "Token not found or could not be fetched"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "headers": {
+              "RateLimit-Limit": {
+                "description": "Maximum requests allowed",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "description": "Remaining requests in current window",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "description": "Time when the rate limit resets",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds to wait before retrying",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                },
+                "example": {
+                  "error": "Too many requests",
+                  "limit": 60,
+                  "retryAfter": "60s"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error during analysis",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "example": {
+                  "error": "Error message describing the issue"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnalysisResponse": {
+        "type": "object",
+        "properties": {
+          "owner": {
+            "type": "string",
+            "description": "Current owner address or 'HIDDEN' if renounced",
+            "example": "HIDDEN"
+          },
+          "tokenAddress": {
+            "type": "string",
+            "description": "Contract address",
+            "example": "0x00e22ed2c31875abaa34ed0659acb76734b9540d"
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Token symbol",
+            "example": "TEKE"
+          },
+          "name": {
+            "type": "string",
+            "description": "Token name",
+            "example": "Akhal Teke"
+          },
+          "chain": {
+            "type": "string",
+            "description": "Chain ID",
+            "example": "56"
+          },
+          "decimals": {
+            "type": "string",
+            "description": "Token decimals",
+            "example": "18"
+          },
+          "totalSupply": {
+            "type": "string",
+            "description": "Total token supply in wei",
+            "example": "30000000000000000000000000"
+          },
+          "contractName": {
+            "type": "string",
+            "description": "Contract name from source code",
+            "example": "TEKE"
+          },
+          "isProxy": {
+            "type": "boolean",
+            "description": "Whether contract is a proxy",
+            "example": false
+          },
+          "age": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Token deployment timestamp in milliseconds",
+            "example": 1764063134000
+          },
+          "lastchecked": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Last analysis timestamp in milliseconds",
+            "example": 1767810740203
+          },
+          "initInfo": {
+            "$ref": "#/components/schemas/InitInfo"
+          },
+          "threats": {
+            "type": "array",
+            "description": "Array of detected security threats. Common threats include 'Honeypot' (contract designed to trap funds) and 'Shypooning' (malicious behavior allowing fund manipulation), but other threat types may be detected.",
+            "items": {
+              "type": "string"
+            },
+            "example": ["Honeypot", "Shypooning"]
+          },
+          "auditInfo": {
+            "$ref": "#/components/schemas/AuditInfo"
+          },
+          "similarityMap": {
+            "type": "array",
+            "description": "Array of up to 5 similar tokens detected through AI analysis (limited from full dataset)",
+            "maxItems": 5,
+            "items": {
+              "$ref": "#/components/schemas/SimilarToken"
+            }
+          }
+        }
+      },
+      "InitInfo": {
+        "type": "object",
+        "description": "Deployment information for the token contract",
+        "properties": {
+          "blockNumber": {
+            "type": "string",
+            "description": "Block number of deployment",
+            "example": "69415413"
+          },
+          "contractCreator": {
+            "type": "string",
+            "description": "Address that deployed the contract",
+            "example": "0xd0e4b00687445e8cbbd376243c0e41fc85b220b6"
+          },
+          "txHash": {
+            "type": "string",
+            "description": "Deployment transaction hash",
+            "example": "0x6bcdb3f66193257a1059799852483841dd70feb3e04e564c72812497e971fcb0"
+          },
+          "timestamp": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Deployment timestamp in Unix seconds",
+            "example": 1764062930
+          }
+        }
+      },
+      "AuditInfo": {
+        "type": "object",
+        "description": "Security audit results",
+        "properties": {
+          "ownershipStatus": {
+            "type": "string",
+            "description": "Ownership status of the contract",
+            "enum": ["Active", "Renounced"],
+            "example": "Active"
+          },
+          "flags": {
+            "type": "array",
+            "description": "Array of security check results",
+            "items": {
+              "$ref": "#/components/schemas/AuditFlag"
+            }
+          }
+        }
+      },
+      "AuditFlag": {
+        "type": "object",
+        "description": "Individual security check result",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Security category being checked",
+            "enum": ["Honeypot", "Shypooning", "Tax Issue", "Other Risks"],
+            "example": "Honeypot"
+          },
+          "label": {
+            "type": "string",
+            "description": "Visual indicator: 🔴 = risk detected, 🟢 = passed",
+            "enum": ["🔴", "🟢"],
+            "example": "🔴"
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the finding. Empty string if the check passed.",
+            "example": "The contract uses `subSkip` in `transferFrom`, allowing tax wallets to bypass allowance checks, which can be exploited to block transfers."
+          }
+        }
+      },
+      "SimilarToken": {
+        "type": "object",
+        "description": "Similar token detected through AI-powered pattern matching",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Token symbol",
+            "example": "AZZA"
+          },
+          "id": {
+            "type": "string",
+            "description": "Contract address",
+            "example": "0xc2d49b3358104c764100a3044aefad672ab794da"
+          },
+          "chain": {
+            "type": "string",
+            "description": "Chain ID where token exists",
+            "example": "8453"
+          },
+          "score": {
+            "type": "number",
+            "format": "double",
+            "description": "Similarity score (0-1, higher = more similar)",
+            "minimum": 0,
+            "maximum": 1,
+            "example": 0.8715265989303589
+          },
+          "exactMatch": {
+            "type": "boolean",
+            "description": "Whether this is an exact code match",
+            "example": false
+          },
+          "tags": {
+            "type": "array",
+            "description": "Tags associated with the token (e.g., 'scam', 'verified')",
+            "items": {
+              "type": "string"
+            },
+            "example": []
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message describing what went wrong"
+          }
+        }
+      },
+      "RateLimitError": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message",
+            "example": "Too many requests"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Request limit that was exceeded",
+            "example": 60
+          },
+          "retryAfter": {
+            "type": "string",
+            "description": "Time to wait before retrying",
+            "example": "60s"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-api-key",
+        "description": "API key for authentication. Get your free API key at [dashboard.eva-ai.io](https://dashboard.eva-ai.io)"
+      }
+    }
+  }
+}

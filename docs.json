@@ -1,68 +1,57 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "theme": "maple",
+  "name": "EVA AI",
+  "openapi": ["/openapi.json"],
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#f7941d",
+    "light": "#f7941d",
+    "dark": "#f7941d"
   },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "EVA AI",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Welcome to EVA AI",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "Introduction",
+              "Vision",
+              "Roadmap",
+              "$EVA Token"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Products",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "Products/Instinct",
+              "Products/Intel",
+              "Products/EVA App",
+              {
+                "group": "Developer API",
+                "pages": [
+                  "Products/Developer API/overview",
+                  "Products/Developer API/chains",
+                  {
+                    "group": "Endpoints",
+                    "pages": [
+                      "openapi GET /audit"
+                    ]
+                  }
+                ]
+              }
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Miscellaneous",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "EVA Tokenomics",
+              "Educational Resources",
+              "FAQs",
+              "Contracts",
+              "Links"
             ]
           }
         ]
@@ -72,51 +61,44 @@
       "anchors": [
         {
           "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
+          "href": "https://docs.eva-ai.cloud/",
           "icon": "book-open-cover"
         },
         {
+          "anchor": "Telegram",
+          "href": "https://t.me/eva_AI_eth",
+          "icon": "telegram"
+        },
+        {
           "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
+          "href": "https://eva-ai.io/blog",
           "icon": "newspaper"
         }
       ]
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/eva_logo_2.png",
+    "dark": "/eva_logo_2.png"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:evaaiteam@gmail.com"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Get $EVA",
+      "href": "https://app.uniswap.org/explore/tokens/ethereum/0x3566c8ee9780245e974e759a7716ea6ba0702588"
     }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/eva_ai_2024",
+      "telegram": "https://t.me/eva_AI_eth",
+      "website": "https://eva-ai.cloud"
     }
   }
 }
