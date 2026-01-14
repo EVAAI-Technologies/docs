@@ -2,7 +2,6 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "maple",
   "name": "EVA AI",
-  "openapi": ["openapi.json"],
   "colors": {
     "primary": "#f7941d",
     "light": "#f7941d",
@@ -36,8 +35,9 @@
                   "Products/Developer API/chains",
                   {
                     "group": "Endpoints",
+                    "openapi": "openapi.json",
                     "pages": [
-                      "openapi GET /audit"
+                      "GET /audit"
                     ]
                   }
                 ]
