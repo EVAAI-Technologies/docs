@@ -33,8 +33,8 @@
           {
             "group": "API",
             "pages": [
-              "Products/API/overview",
-              "Products/API/chains",
+              "Products/Developer API/overview",
+              "Products/Developer API/chains",
               {
                 "group": "Endpoints",
                 "openapi": "openapi.json",

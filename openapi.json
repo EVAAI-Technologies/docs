@@ -41,6 +41,26 @@
             "lang": "python",
             "label": "Python",
             "source": "import requests\n\nresponse = requests.get(\n    'https://dashboard.eva-ai.io/api/audit',\n    params={'chain': 56, 'ca': '0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC'},\n    headers={'x-api-key': 'YOUR_API_KEY'}\n)\ndata = response.json()"
+          },
+          {
+            "lang": "php",
+            "label": "PHP",
+            "source": "<?php\n$ch = curl_init();\ncurl_setopt($ch, CURLOPT_URL, 'https://dashboard.eva-ai.io/api/audit?chain=56&ca=0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC');\ncurl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\ncurl_setopt($ch, CURLOPT_HTTPHEADER, [\n    'x-api-key: YOUR_API_KEY'\n]);\n$response = curl_exec($ch);\ncurl_close($ch);\n$data = json_decode($response, true);"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"net/http\"\n    \"io\"\n)\n\nfunc main() {\n    req, _ := http.NewRequest(\"GET\", \"https://dashboard.eva-ai.io/api/audit?chain=56&ca=0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC\", nil)\n    req.Header.Add(\"x-api-key\", \"YOUR_API_KEY\")\n    client := &http.Client{}\n    resp, _ := client.Do(req)\n    defer resp.Body.Close()\n    body, _ := io.ReadAll(resp.Body)\n}"
+          },
+          {
+            "lang": "java",
+            "label": "Java",
+            "source": "HttpClient client = HttpClient.newHttpClient();\nHttpRequest request = HttpRequest.newBuilder()\n    .uri(URI.create(\"https://dashboard.eva-ai.io/api/audit?chain=56&ca=0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC\"))\n    .header(\"x-api-key\", \"YOUR_API_KEY\")\n    .build();\nHttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());"
+          },
+          {
+            "lang": "ruby",
+            "label": "Ruby",
+            "source": "require 'net/http'\nrequire 'json'\n\nuri = URI('https://dashboard.eva-ai.io/api/audit?chain=56&ca=0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC')\nreq = Net::HTTP::Get.new(uri)\nreq['x-api-key'] = 'YOUR_API_KEY'\nres = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }\ndata = JSON.parse(res.body)"
           }
         ],
         "parameters": [
