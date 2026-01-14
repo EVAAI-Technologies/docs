@@ -31,10 +31,10 @@
             ]
           },
           {
-            "group": "Developer API",
+            "group": "API",
             "pages": [
-              "Products/Developer API/overview",
-              "Products/Developer API/chains",
+              "Products/API/overview",
+              "Products/API/chains",
               {
                 "group": "Endpoints",
                 "openapi": "openapi.json",
