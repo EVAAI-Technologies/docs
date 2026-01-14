@@ -37,7 +37,7 @@
                   {
                     "group": "Endpoints",
                     "pages": [
-                      "openapi POST /evmFullanalyze"
+                      "openapi GET /audit"
                     ]
                   }
                 ]
