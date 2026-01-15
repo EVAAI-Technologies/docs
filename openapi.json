@@ -223,7 +223,7 @@
     },
     "/initInfo": {
       "get": {
-        "summary": "Launch Analysis",
+        "summary": "initInfo",
         "description": "Get holder distribution snapshot at token launch. Identifies insiders, snipers, and unfair distribution patterns from the initial liquidity pool creation - not current holders.",
         "operationId": "initInfo",
         "x-codeSamples": [
