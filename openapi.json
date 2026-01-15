@@ -220,6 +220,143 @@
           }
         }
       }
+    },
+    "/initInfo": {
+      "get": {
+        "summary": "Launch Analysis",
+        "description": "Get holder distribution snapshot at token launch. Identifies insiders, snipers, and unfair distribution patterns from the initial liquidity pool creation - not current holders.",
+        "operationId": "initInfo",
+        "x-codeSamples": [
+          {
+            "lang": "curl",
+            "label": "cURL",
+            "source": "curl 'https://dashboard.eva-ai.io/api/initInfo?chain=56&ca=0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC' \\\n  -H 'x-api-key: YOUR_API_KEY'"
+          },
+          {
+            "lang": "javascript",
+            "label": "JavaScript",
+            "source": "const response = await fetch(\n  'https://dashboard.eva-ai.io/api/initInfo?chain=56&ca=0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC',\n  {\n    headers: { 'x-api-key': 'YOUR_API_KEY' }\n  }\n);\nconst data = await response.json();"
+          },
+          {
+            "lang": "python",
+            "label": "Python",
+            "source": "import requests\n\nresponse = requests.get(\n    'https://dashboard.eva-ai.io/api/initInfo',\n    params={'chain': 56, 'ca': '0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC'},\n    headers={'x-api-key': 'YOUR_API_KEY'}\n)\ndata = response.json()"
+          },
+          {
+            "lang": "php",
+            "label": "PHP",
+            "source": "<?php\n$ch = curl_init();\ncurl_setopt($ch, CURLOPT_URL, 'https://dashboard.eva-ai.io/api/initInfo?chain=56&ca=0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC');\ncurl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\ncurl_setopt($ch, CURLOPT_HTTPHEADER, [\n    'x-api-key: YOUR_API_KEY'\n]);\n$response = curl_exec($ch);\ncurl_close($ch);\n$data = json_decode($response, true);"
+          },
+          {
+            "lang": "go",
+            "label": "Go",
+            "source": "package main\n\nimport (\n    \"net/http\"\n    \"io\"\n)\n\nfunc main() {\n    req, _ := http.NewRequest(\"GET\", \"https://dashboard.eva-ai.io/api/initInfo?chain=56&ca=0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC\", nil)\n    req.Header.Add(\"x-api-key\", \"YOUR_API_KEY\")\n    client := &http.Client{}\n    resp, _ := client.Do(req)\n    defer resp.Body.Close()\n    body, _ := io.ReadAll(resp.Body)\n}"
+          },
+          {
+            "lang": "java",
+            "label": "Java",
+            "source": "HttpClient client = HttpClient.newHttpClient();\nHttpRequest request = HttpRequest.newBuilder()\n    .uri(URI.create(\"https://dashboard.eva-ai.io/api/initInfo?chain=56&ca=0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC\"))\n    .header(\"x-api-key\", \"YOUR_API_KEY\")\n    .build();\nHttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());"
+          },
+          {
+            "lang": "ruby",
+            "label": "Ruby",
+            "source": "require 'net/http'\nrequire 'json'\n\nuri = URI('https://dashboard.eva-ai.io/api/initInfo?chain=56&ca=0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC')\nreq = Net::HTTP::Get.new(uri)\nreq['x-api-key'] = 'YOUR_API_KEY'\nres = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }\ndata = JSON.parse(res.body)"
+          }
+        ],
+        "parameters": [
+          {
+            "name": "chain",
+            "in": "query",
+            "required": true,
+            "description": "Chain ID (e.g., 1 = Ethereum, 56 = BSC, 8453 = Base)",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 56
+          },
+          {
+            "name": "ca",
+            "in": "query",
+            "required": true,
+            "description": "Contract address",
+            "schema": {
+              "type": "string"
+            },
+            "example": "0x2C45560bC707f7aDDb8dF848A9Ba6cd9F30FAEeC"
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "description": "API key for higher rate limits (optional). Get one at dashboard.eva-ai.io",
+            "schema": {
+              "type": "string"
+            },
+            "example": "YOUR_API_KEY"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Launch analysis response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LaunchAnalysisResponse"
+                },
+                "example": {
+                  "lpAddress": "0xde3314393f7a2977e0a531f2a646c71d5a2c105c",
+                  "lpCreationBlock": 46481129,
+                  "holderSnapshot": [
+                    { "address": "0xd26fe1fa7cfaa647da28918b29a1b574551824b8", "balance": "800000000000000000000000000", "percentage": "80%", "label": "Insider" },
+                    { "address": "0xde3314393f7a2977e0a531f2a646c71d5a2c105c", "balance": "199200000000000000000001858", "percentage": "19.92%", "label": "LP" },
+                    { "address": "0x521faacdfa097ad35a32387727e468f7fd032fd6", "balance": "799999999999999999997512", "percentage": "0.08%", "label": "Sniper" }
+                  ],
+                  "summary": {
+                    "totalHolders": 4,
+                    "totalPercentageHeld": "100.0000%",
+                    "lp": { "count": 1, "percentage": "19.9200%" },
+                    "contract": { "count": 0, "percentage": "0.0000%" },
+                    "insiders": { "count": 2, "percentage": "80.0000%" },
+                    "snipers": { "count": 1, "percentage": "0.0800%" },
+                    "earlyBuyers": { "count": 0, "percentage": "0.0000%" },
+                    "others": { "count": 0, "percentage": "0.0000%" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Missing required parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Token not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -447,6 +584,109 @@
             "type": "string",
             "description": "Time to wait before retrying",
             "example": "60s"
+          }
+        }
+      },
+      "LaunchAnalysisResponse": {
+        "type": "object",
+        "description": "Holder distribution snapshot at token launch",
+        "properties": {
+          "lpAddress": {
+            "type": "string",
+            "description": "Liquidity pool address",
+            "example": "0xde3314393f7a2977e0a531f2a646c71d5a2c105c"
+          },
+          "lpCreationBlock": {
+            "type": "integer",
+            "description": "Block number when LP was created",
+            "example": 46481129
+          },
+          "holderSnapshot": {
+            "type": "array",
+            "description": "Holder distribution at launch",
+            "items": {
+              "$ref": "#/components/schemas/HolderSnapshot"
+            }
+          },
+          "summary": {
+            "$ref": "#/components/schemas/LaunchSummary"
+          }
+        }
+      },
+      "HolderSnapshot": {
+        "type": "object",
+        "description": "Individual holder at launch",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "Holder wallet address",
+            "example": "0xd26fe1fa7cfaa647da28918b29a1b574551824b8"
+          },
+          "balance": {
+            "type": "string",
+            "description": "Token balance in wei",
+            "example": "800000000000000000000000000"
+          },
+          "percentage": {
+            "type": "string",
+            "description": "Percentage of total supply held",
+            "example": "80%"
+          },
+          "label": {
+            "type": "string",
+            "description": "Holder classification",
+            "enum": ["Insider", "LP", "Sniper", "Contract", "EarlyBuyer", "Other"],
+            "example": "Insider"
+          }
+        }
+      },
+      "LaunchSummary": {
+        "type": "object",
+        "description": "Summary of holder distribution at launch",
+        "properties": {
+          "totalHolders": {
+            "type": "integer",
+            "description": "Total number of holders at launch",
+            "example": 4
+          },
+          "totalPercentageHeld": {
+            "type": "string",
+            "description": "Total percentage held by tracked holders",
+            "example": "100.0000%"
+          },
+          "lp": {
+            "$ref": "#/components/schemas/HolderCategory"
+          },
+          "contract": {
+            "$ref": "#/components/schemas/HolderCategory"
+          },
+          "insiders": {
+            "$ref": "#/components/schemas/HolderCategory"
+          },
+          "snipers": {
+            "$ref": "#/components/schemas/HolderCategory"
+          },
+          "earlyBuyers": {
+            "$ref": "#/components/schemas/HolderCategory"
+          },
+          "others": {
+            "$ref": "#/components/schemas/HolderCategory"
+          }
+        }
+      },
+      "HolderCategory": {
+        "type": "object",
+        "description": "Holder category statistics",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Number of holders in this category",
+            "example": 1
+          },
+          "percentage": {
+            "type": "string",
+            "description": "Percentage of supply held by this category",
+            "example": "19.9200%"
           }
         }
       }

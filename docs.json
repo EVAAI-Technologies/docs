@@ -39,7 +39,8 @@
                 "group": "Endpoints",
                 "openapi": "openapi.json",
                 "pages": [
-                  "GET /audit"
+                  "GET /audit",
+                  "GET /initInfo"
                 ]
               }
             ]
